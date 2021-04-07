@@ -56,13 +56,13 @@ $(".list-group").on("click", "p", function () {
   textInput.trigger("focus");
 });
 
-$("list-group").on("blur", "textarea", function () {
+$(".list-group").on("blur", "textarea", function () {
   var text = $(this)
     .val()
 
 
   var status = $(this)
-    .closest("list-group")
+    .closest(".list-group")
     .attr("id")
     .replace("list-", "");
 
