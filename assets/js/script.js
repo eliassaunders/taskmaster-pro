@@ -45,6 +45,7 @@ var saveTasks = function () {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
+
 $(".list-group").on("click", "p", function () {
   var text = $(this)
     .text()
@@ -177,6 +178,9 @@ $(".card .list-group").sortable({
   tolerance: "pointer",
   helper: "clone",
   activate: function (event) {
+    console.log("activate", this);
+  },
+  deactivate: function (event) {
     console.log("deactivate", this);
   },
   over: function (event) {
@@ -185,7 +189,7 @@ $(".card .list-group").sortable({
   out: function (event) {
     console.log("out", event.target);
   },
-  update: function (event) {
+  update: function () {
     var tempArr = [];
 
     $(this).children().each(function () {
@@ -204,13 +208,13 @@ $(".card .list-group").sortable({
         date: date
       });
     });
-    console.log(tempArr);
     var arrName = $(this)
       .attr("id")
       .replace("list-", "");
 
     tasks[arrName] = tempArr;
     saveTasks();
+    console.log(tempArr)
   }
 });
 // load tasks for the first time
