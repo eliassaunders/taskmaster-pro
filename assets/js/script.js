@@ -13,6 +13,7 @@ var createTask = function (taskText, taskDate, taskList) {
   // append span and p element to parent li
   taskLi.append(taskSpan, taskP);
 
+  auditTask(taskLi);
 
   // append to ul list on the page
   $("#list-" + taskList).append(taskLi);
@@ -132,6 +133,8 @@ $(".list-group").on("change", "input[type='text']", function () {
 
   // replace input with span element
   $(this).replaceWith(taskSpan);
+
+  auditTask($(taskSpan).closest(".list-group-item"));
 });
 
 
@@ -239,6 +242,19 @@ $("#trash").droppable({
   }
 });
 
+var auditTask = function(taskEl) {
+  var date = $(taskEl).find("span").text().trim();
+
+  var time = moment(date, "L").set("hour", 17);
+
+$(taskEl).removeClass("list-group-item-warning list-group-item-danger");
+
+if (moment().isAfter(time)) {
+  $(taskEl).addClass("list-group-item-danger");
+} else if (Math.abs(moment().diff(time, "days")) <= 2) {
+  $(taskEl).addClass("list-group-item-warning");
+}
+};
 $("#modalDueDate").datepicker({minDate: 1})
 // load tasks for the first time
 loadTasks();
